@@ -1,8 +1,7 @@
-[gd_scene load_steps=5 format=2]
+[gd_scene load_steps=4 format=2]
 
 [ext_resource path="res://characters/ControllableCharacter.gd" type="Script" id=1]
 [ext_resource path="res://characters/WeaponContainer.tscn" type="PackedScene" id=2]
-[ext_resource path="res://weapons/Gun.tscn" type="PackedScene" id=3]
 
 [sub_resource type="CapsuleShape2D" id=1]
 radius = 20.0
@@ -16,5 +15,3 @@ shape = SubResource( 1 )
 
 [node name="WeaponContainer" parent="." instance=ExtResource( 2 )]
 position = Vector2( 40, 0 )
-
-[node name="Gun" parent="WeaponContainer" instance=ExtResource( 3 )]
