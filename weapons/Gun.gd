@@ -1,9 +1,9 @@
 extends Node2D
 
-var bullet_class = preload("res://weapons/Bullet.tscn")
-var SPEED = 500.0
+var projectile_class = preload("res://weapons/Bullet.tscn")
+var SPEED = 1000.0
 
-func get_bullet():
-    var bullet = bullet_class.instance()
+func get_projectile():
+    var bullet = projectile_class.instance()
     return bullet
 

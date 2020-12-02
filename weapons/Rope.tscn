@@ -1,0 +1,47 @@
+[gd_scene load_steps=3 format=2]
+
+[sub_resource type="RectangleShape2D" id=1]
+
+[sub_resource type="CapsuleShape2D" id=2]
+radius = 2.42215
+height = 21.6126
+
+[node name="Rope" type="Node2D"]
+
+[node name="StaticBody2D" type="StaticBody2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D"]
+shape = SubResource( 1 )
+
+[node name="PinJoint2D" type="PinJoint2D" parent="."]
+position = Vector2( 0, 12.058 )
+node_a = NodePath("../StaticBody2D")
+node_b = NodePath("../RigidBody2D")
+
+[node name="RigidBody2D" type="RigidBody2D" parent="."]
+position = Vector2( 0.066143, 26.5875 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="RigidBody2D"]
+shape = SubResource( 2 )
+
+[node name="PinJoint2D2" type="PinJoint2D" parent="."]
+position = Vector2( 0, 41.3229 )
+node_a = NodePath("../RigidBody2D")
+node_b = NodePath("../RigidBody2D3")
+
+[node name="RigidBody2D3" type="RigidBody2D" parent="."]
+position = Vector2( 0, 56.6536 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="RigidBody2D3"]
+shape = SubResource( 2 )
+
+[node name="PinJoint2D3" type="PinJoint2D" parent="."]
+position = Vector2( 0.187286, 72.0383 )
+node_a = NodePath("../RigidBody2D3")
+node_b = NodePath("../RigidBody2D4")
+
+[node name="RigidBody2D4" type="RigidBody2D" parent="."]
+position = Vector2( 0.374588, 86.2453 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="RigidBody2D4"]
+shape = SubResource( 2 )
