@@ -1,8 +1,8 @@
 extends KinematicBody2D
 
 
-const SPEED = 200
-var MAX_FALL_SPEED = 200
+const SPEED = 500
+var MAX_FALL_SPEED = 1000
 var movement_dir = Vector2()
 var x_axis = 0
 var y_axis = 0
