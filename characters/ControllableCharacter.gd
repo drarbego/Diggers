@@ -1,5 +1,7 @@
 extends KinematicBody2D
 
+class_name ControllableCharacter
+
 
 const SPEED = 500
 var MAX_FALL_SPEED = 1000
@@ -11,6 +13,8 @@ onready var gravity = ProjectSettings.get("physics/2d/default_gravity")
 var can_jump = true
 var jump_speed = 2000
 var is_jumping = false
+var is_attached_to_rope = false
+var rope = null
 
 var jump_timer = Timer.new()
 
@@ -30,6 +34,8 @@ func _physics_process(delta):
 	var snap_vector = Vector2.DOWN * 20
 	if is_jumping:
 		move_and_slide(velocity, Vector2.UP)
+	elif is_attached_to_rope:
+		move_and_slide((rope.global_position - self.global_position).normalized() * SPEED)
 	else:
 		move_and_slide_with_snap(velocity, snap_vector, Vector2.UP, false)
 
