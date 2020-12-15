@@ -13,10 +13,14 @@ onready var gravity = ProjectSettings.get("physics/2d/default_gravity")
 var can_jump = true
 var jump_speed = 2000
 var is_jumping = false
+var is_bouncing = false
+var bounce_x_dir = 0
 var is_attached_to_rope = false
 var rope = null
+var PULL_SPEED = 100
 
 var jump_timer = Timer.new()
+var bounce_timer = Timer.new()
 
 func _ready():
 	jump_timer.set_wait_time(0.2)
@@ -24,9 +28,17 @@ func _ready():
 	jump_timer.connect("timeout", self, "_on_jump_timer_timeout")
 	add_child(jump_timer)
 
+	bounce_timer.set_wait_time(0.2)
+	bounce_timer.set_one_shot(true)
+	bounce_timer.connect("timeout", self, "_on_bounce_timer_timeout")
+	add_child(bounce_timer)
+
 func _on_jump_timer_timeout():
 	is_jumping = false
 	velocity.y = 0.0
+
+func _on_bounce_timer_timeout():
+	is_bouncing = false
 
 func _physics_process(delta):
 	var direction = get_direction()
@@ -50,18 +62,47 @@ func get_velocity(current_velocity, current_direction, delta):
 	elif v.y >= MAX_FALL_SPEED:
 		v.y = MAX_FALL_SPEED
 	else:
-		# v += Vector2.DOWN * gravity * delta
 		v += (Vector2.DOWN * gravity/2) + (Vector2.DOWN * gravity * delta)
+
+	if self.rope:
+		var rope_vector = to_local(self.rope.global_position)
+		if self.rope.length < rope_vector.length():
+			print("length is less than vector")
+			var rope_pull_vector = rope_vector.normalized() * PULL_SPEED
+			# rope_pull_vector.x *= 4
+			v += rope_pull_vector
 
 	return v
 
 func get_direction():
-	if Input.is_action_just_pressed("jump") and is_on_floor() and not is_jumping:
-		is_jumping = true
-		jump_timer.start()
+	var x_dir = Input.get_action_strength("ui_right") - Input.get_action_strength("ui_left")
+
+	if is_bouncing:
+		x_dir = bounce_x_dir
+
+	if not is_on_floor():
+		x_dir /= 4
+
+	if Input.is_action_just_pressed("jump"):
+		if self.rope:
+			self.rope.queue_free()
+			self.rope = null
+
+		if (is_on_floor() or is_on_wall()) and not is_jumping:
+			is_jumping = true
+			jump_timer.start()
+
+			if is_on_wall() and not is_on_floor() and get_slide_count():
+				var collision = get_slide_collision(0)
+
+				is_bouncing = true
+				bounce_x_dir = collision.normal.x
+
+				x_dir += bounce_x_dir
+				bounce_timer.start()
 
 	return Vector2(
-		Input.get_action_strength("ui_right") - Input.get_action_strength("ui_left"),
+		x_dir,
 		-1 if is_jumping else 0
 	).normalized()
 

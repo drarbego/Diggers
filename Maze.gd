@@ -5,7 +5,7 @@ const TILE_SIZE = 64
 class Cell:
 	var x
 	var y
-	var square_tiles = 4
+	var square_tiles = 6
 	var size = square_tiles * TILE_SIZE
 	var visited = false
 
@@ -31,8 +31,8 @@ class Cell:
 		return Vector2((self.x+1) * square_tiles, (self.y+1)*square_tiles)
 
 var cells = []
-var rows = 10
-var cols = 10
+var rows = 8
+var cols = 8
 
 func _ready():
 	randomize()
@@ -136,7 +136,7 @@ func fill_tilemap():
 		for x in range(tl.x, br.x):
 			local_y = 0
 			for y in range(tl.y, br.y):
-				var tile_id = 0
+				var tile_id = -1
 				if cell.up_wall and local_y == 0:
 					tile_id = 2
 				if cell.down_wall and local_y == cell.square_tiles-1:

@@ -1,5 +1,7 @@
 extends Node2D
 
+# Deshacerse de esta abstracción
+
 
 const CONTAINER_DISTANCE = 40
 var current_weapon = 0
@@ -34,6 +36,6 @@ func shoot_to_aimed_direction():
 	var weapon = get_node("Weapons").get_children()[current_weapon]
 	var projectile = weapon.get_projectile()
 	projectile.rotation = aimed_direction.angle()
-	projectile.position = get_node("..").position + self.position
+	projectile.global_position = self.global_position
 	get_node("../../").add_child(projectile)
 	projectile.apply_impulse(Vector2.ZERO, aimed_direction * weapon.SPEED)
