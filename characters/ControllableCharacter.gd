@@ -15,9 +15,9 @@ var jump_speed = 2000
 var is_jumping = false
 var is_bouncing = false
 var bounce_x_dir = 0
-var is_attached_to_rope = false
 var rope = null
-var PULL_SPEED = 100
+onready var PULL_SPEED = gravity
+var snap_vector = Vector2.DOWN * 20
 
 var jump_timer = Timer.new()
 var bounce_timer = Timer.new()
@@ -43,11 +43,10 @@ func _on_bounce_timer_timeout():
 func _physics_process(delta):
 	var direction = get_direction()
 	velocity = get_velocity(velocity, direction, delta)
-	var snap_vector = Vector2.DOWN * 20
-	if is_jumping:
+	if Input.is_key_pressed(KEY_T):
+		print("result velocity ", velocity)
+	if is_jumping or self.rope:
 		move_and_slide(velocity, Vector2.UP)
-	elif is_attached_to_rope:
-		move_and_slide((rope.global_position - self.global_position).normalized() * SPEED)
 	else:
 		move_and_slide_with_snap(velocity, snap_vector, Vector2.UP, false)
 
@@ -64,15 +63,24 @@ func get_velocity(current_velocity, current_direction, delta):
 	else:
 		v += (Vector2.DOWN * gravity/2) + (Vector2.DOWN * gravity * delta)
 
+	if Input.is_key_pressed(KEY_T):
+		print("velocity BEFORE rope pull force ", v)
+
 	if self.rope:
 		var rope_vector = to_local(self.rope.global_position)
-		if self.rope.length < rope_vector.length():
-			print("length is less than vector")
-			var rope_pull_vector = rope_vector.normalized() * PULL_SPEED
-			# rope_pull_vector.x *= 4
-			v += rope_pull_vector
+		var rope_pull_vector = rope_vector.normalized() * (PULL_SPEED * (rope_vector.length() / self.rope.length) )
+		rope_pull_vector.x *= 10
+		v += rope_pull_vector
+		if Input.is_key_pressed(KEY_T):
+			print("velocity AFTER rope pull force ", v)
 
 	return v
+
+func _unhandled_input(event):
+	if event.is_action_pressed("shoot"):
+		if self.rope:
+			self.rope.queue_free()
+			self.rope = null
 
 func get_direction():
 	var x_dir = Input.get_action_strength("ui_right") - Input.get_action_strength("ui_left")

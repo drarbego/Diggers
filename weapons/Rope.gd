@@ -53,14 +53,3 @@ func _process(delta):
 	update()
 	if self.rope_delta != null:
 		self.length = clamp(self.length + rope_delta, 10, INF)
-		print("length ", self.length)
-
-# func _on_DetectionArea_body_entered(body):
-# 	if body is ControllableCharacter:
-# 		body.is_attached_to_rope = true
-# 		body.rope = $RigidBody2D4/DetectionArea
-
-# func _on_DetectionArea_body_exited(body):
-# 	if body is ControllableCharacter:
-# 		body.is_attached_to_rope = false
-# 		body.rope = null
