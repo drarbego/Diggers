@@ -13,9 +13,33 @@ _global_script_classes=[ {
 "class": "ControllableCharacter",
 "language": "GDScript",
 "path": "res://characters/ControllableCharacter.gd"
+}, {
+"base": "State",
+"class": "IdleState",
+"language": "GDScript",
+"path": "res://characters/IdleState.gd"
+}, {
+"base": "State",
+"class": "RunState",
+"language": "GDScript",
+"path": "res://characters/RunState.gd"
+}, {
+"base": "Node2D",
+"class": "State",
+"language": "GDScript",
+"path": "res://characters/State.gd"
+}, {
+"base": "Reference",
+"class": "StateFactory",
+"language": "GDScript",
+"path": "res://characters/StateFactory.gd"
 } ]
 _global_script_class_icons={
-"ControllableCharacter": ""
+"ControllableCharacter": "",
+"IdleState": "",
+"RunState": "",
+"State": "",
+"StateFactory": ""
 }
 
 [application]
