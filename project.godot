@@ -20,6 +20,16 @@ _global_script_classes=[ {
 "path": "res://characters/IdleState.gd"
 }, {
 "base": "State",
+"class": "JumpState",
+"language": "GDScript",
+"path": "res://characters/JumpState.gd"
+}, {
+"base": "State",
+"class": "RopeState",
+"language": "GDScript",
+"path": "res://characters/RopeState.gd"
+}, {
+"base": "State",
 "class": "RunState",
 "language": "GDScript",
 "path": "res://characters/RunState.gd"
@@ -37,6 +47,8 @@ _global_script_classes=[ {
 _global_script_class_icons={
 "ControllableCharacter": "",
 "IdleState": "",
+"JumpState": "",
+"RopeState": "",
 "RunState": "",
 "State": "",
 "StateFactory": ""

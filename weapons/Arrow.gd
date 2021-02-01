@@ -13,5 +13,7 @@ func _on_Arrow_body_entered(body):
 		rope.global_position = self.global_position
 		rope.triggerer = self.triggerer
 		rope.to_pos = get_global_mouse_position()
+		# TODO pass reference to character
 		get_parent().add_child(rope)
+		triggerer.change_state("rope")
 		queue_free()
