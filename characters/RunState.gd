@@ -13,6 +13,9 @@ func handle_input(_event):
 	if not (self.persistent_state.moving_left or self.persistent_state.moving_right):
 		self.persistent_state.change_state("idle")
 
+func _process(delta):
+	self.persistent_state.get_node("Face").flip_h = self.get_direction().x < 0
+
 func _physics_process(delta):
 	if Input.is_action_just_pressed("jump") and self.persistent_state.is_on_floor():
 		self.persistent_state.change_state("jump")

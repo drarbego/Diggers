@@ -15,7 +15,7 @@ var is_jumping = false
 var is_bouncing = false
 var bounce_x_dir = 0
 onready var gravity = ProjectSettings.get("physics/2d/default_gravity")
-onready var PULL_SPEED = gravity
+onready var PULL_SPEED = gravity * 2
 var snap_vector = Vector2.DOWN * 20
 
 onready var state_factory = StateFactory.new()
@@ -38,7 +38,7 @@ func change_state(state_name):
 	if is_instance_valid(self.state):
 		self.state.queue_free()
 	self.state = self.state_factory.get_state(state_name).new()
-	state.setup($AnimatedSprite, self)
+	state.setup(self)
 	state.name = "current_state"
 	add_child(state)
 

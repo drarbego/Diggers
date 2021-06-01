@@ -12,6 +12,8 @@ var rope_delta = null
 func _ready():
 	# _generate_rope()
 	length = to_local(triggerer.global_position).length()
+	if triggerer.rope:
+		triggerer.rope.queue_free()
 	triggerer.rope = self
 
 func _generate_rope():

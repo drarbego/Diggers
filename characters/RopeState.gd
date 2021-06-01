@@ -8,6 +8,8 @@ func _ready():
 func _physics_process(delta):
 	if Input.is_action_just_pressed("jump"):
 		self.persistent_state.change_state("jump")
+		if self.persistent_state.rope:
+			self.persistent_state.rope.queue_free()
 
 
 	if not self.persistent_state.rope:
@@ -25,7 +27,12 @@ func _physics_process(delta):
 	self.persistent_state.move_and_slide(self.persistent_state.velocity, Vector2.UP)
 
 func get_velocity(current_direction, dist):
-	var rope_pull_vector = current_direction.normalized() * (self.persistent_state.PULL_SPEED * (dist / self.persistent_state.rope.length))
-	var v = rope_pull_vector + (Vector2.DOWN * self.persistent_state.gravity)
+	# tomar en cuenta input del usuario
+	# 
+	var x_dir = Input.get_action_strength("ui_right") - Input.get_action_strength("ui_left")
 
-	return v
+	var y = current_direction.normalized().y * (self.persistent_state.PULL_SPEED * (dist / self.persistent_state.rope.length)) + self.persistent_state.gravity
+	var x = current_direction.normalized().x * self.persistent_state.PULL_SPEED + x_dir * self.persistent_state.PULL_SPEED/2
+	# var v = rope_pull_vector + (Vector2.DOWN * self.persistent_state.gravity)
+
+	return Vector2(x, y)

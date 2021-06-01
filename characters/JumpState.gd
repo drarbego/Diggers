@@ -3,7 +3,7 @@ extends State
 class_name JumpState
 
 # TODO set timer to stop jump force, stop jump on collision
-var JUMP_TIME = 0.25
+var JUMP_TIME = 0.2
 var timer = Timer.new()
 
 func _ready():
